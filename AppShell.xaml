@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="proiectMAUI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:proiectMAUI"
+    Shell.FlyoutBehavior="Disabled">
+
+    <TabBar>
+        <ShellContent
+            Title="Welcome"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            />
+        <ShellContent
+            Title="About"
+            ContentTemplate="{DataTemplate local:AboutPage}"
+            />
+        <ShellContent
+            Title="My To Do Lists"
+            ContentTemplate="{DataTemplate local:ListEntryPage}"
+ />
+    </TabBar>
+</Shell>
