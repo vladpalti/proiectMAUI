@@ -1,6 +1,7 @@
 ﻿using System;
 using proiectMAUI.Data;
 using System.IO;
+using Plugin.LocalNotification;
 
 namespace proiectMAUI;
 
@@ -23,7 +24,6 @@ public partial class App : Application
     public App()
 	{
 		InitializeComponent();
-
-		MainPage = new AppShell();
+        MainPage = new AppShell();
 	}
 }

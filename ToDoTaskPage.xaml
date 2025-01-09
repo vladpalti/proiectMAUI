@@ -1,40 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
              x:Class="proiectMAUI.ToDoTaskPage"
              Title="ToDoTaskPage">
     <ContentPage.Content>
         <StackLayout Margin="20">
-            <Editor Placeholder="Enter product name" Margin="20"
+            <Editor Placeholder="Enter task description"
                     Text="{Binding Description}"
                     HeightRequest="50" />
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button Text="Save ToDoTask" MaximumWidthRequest="200"
-                        Clicked="OnSaveButtonClicked" />
-                <Button Grid.Column="1"
-                        Text="Delete ToDoTask" MaximumWidthRequest="200"
-                        Clicked="OnDeleteButtonClicked"/>
-                <ListView Grid.Row="1" Grid.Column="0" x:Name="listView"
-                          Margin="20" IsRefreshing="True" >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextCell Text="{Binding Description}" />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Button Grid.Row="2" Grid.Column="0" Text="Add to To Do List"
-                        MaximumWidthRequest="200"
-                        Clicked="OnAddButtonClicked" />
-            </Grid>
+
+            <DatePicker x:Name="deadlinePicker"
+                        MinimumDate="{x:Static sys:DateTime.Now}"
+                        Date="{Binding Deadline}" />
+            <TimePicker x:Name="timePicker"
+                        Time="{Binding TimeOfDay}" />
+            <Button Text="Save ToDoTask"
+                    MaximumWidthRequest="200"
+                    Clicked="OnSaveButtonClicked" />
+
+            <ListView x:Name="listView"
+                      Margin="20">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Description}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Delete Selected Task"
+                    Clicked="OnDeleteTaskButtonClicked" />
+            <Button Text="Back to List"
+                    Clicked="OnBackButtonClicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

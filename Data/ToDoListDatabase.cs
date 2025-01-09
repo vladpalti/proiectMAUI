@@ -47,20 +47,20 @@ namespace proiectMAUI.Data
             .Where(i => i.ID == id)
            .FirstOrDefaultAsync();
         }
-        public Task<int> SaveToDoListAsync(ToDoList slist)
+        public Task<int> SaveToDoListAsync(ToDoList tlist)
         {
-            if (slist.ID != 0)
+            if (tlist.ID != 0)
             {
-                return _database.UpdateAsync(slist);
+                return _database.UpdateAsync(tlist);
             }
             else
             {
-                return _database.InsertAsync(slist);
+                return _database.InsertAsync(tlist);
             }
         }
-        public Task<int> DeleteToDoListAsync(ToDoList slist)
+        public Task<int> DeleteToDoListAsync(ToDoList tlist)
         {
-            return _database.DeleteAsync(slist);
+            return _database.DeleteAsync(tlist);
         }
         public Task<int> SaveListToDoTaskAsync(ListToDoTask listt)
         {
@@ -75,7 +75,26 @@ namespace proiectMAUI.Data
         }
         public Task<List<ToDoTask>> GetListToDoTasksAsync(int todolistid)
         {
-            return _database.QueryAsync<ToDoTask>("select T.ID, T.Description from ToDoTask T" + " inner join ListToDoTask LT" + " on T.ID = LT.ToDoTaskID where LT.ToDoListID = ?", todolistid);
+            return _database.QueryAsync<ToDoTask>("SELECT T.ID, T.Description, T.Deadline FROM ToDoTask T " +
+                                         "INNER JOIN ListToDoTask LT ON T.ID = LT.ToDoTaskID " +
+                                         "WHERE LT.ToDoListID = ? " +
+                                         "ORDER BY T.Deadline ASC", todolistid);
         }
+        public async Task<DateTime> GetDeadlineForTaskAsync(int taskId)
+        {
+            var task = await _database.Table<ToDoTask>().Where(t => t.ID == taskId).FirstOrDefaultAsync();
+            return task?.Deadline ?? DateTime.MinValue;
+        }
+        public Task<ListToDoTask> GetListToDoTaskAsync(int toDoListId, int toDoTaskId)
+{
+            return _database.Table<ListToDoTask>()
+                            .Where(ltt => ltt.ToDoListID == toDoListId && ltt.ToDoTaskID == toDoTaskId)
+                            .FirstOrDefaultAsync();
+        }
+        public Task<int> DeleteListToDoTaskAsync(ListToDoTask listToDoTask)
+        {
+            return _database.DeleteAsync(listToDoTask);
+        }
+
     }
 }
